@@ -3,9 +3,9 @@
 -- ========================================
 CREATE TABLE users (
     user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(150) NOT NULL,
+    name VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     user_type ENUM('client', 'freelancer', 'admin') NOT NULL DEFAULT 'freelancer',
     profile_image VARCHAR(255),
     country VARCHAR(100),
