@@ -22,6 +22,7 @@ app.all('/', (req, res) => {
 app.use('/api', require('./routes/skill.route'));
 app.use('/api', require('./routes/freelancer.route'));
 app.use('/api', require('./routes/client.route'));
+app.use('/api', require('./routes/user.route'));
 
 const PORT = process.env.PORT || 3000;
 
