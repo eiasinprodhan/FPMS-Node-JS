@@ -13,7 +13,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors());
 
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.all('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
