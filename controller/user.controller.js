@@ -21,11 +21,6 @@ const loginUser = async (req, res) => {
           role: user[0].user_type,
         };
         const jwt = await generateToken(payload);
-        await db.execute("DELETE FROM jwt WHERE user_id=?", [user[0].user_id]);
-        await db.execute("INSERT INTO jwt(jwt_token, user_id)VALUES(?, ?)", [
-          jwt,
-          user[0].user_id,
-        ]);
 
         res.status(200).send({
           success: true,
