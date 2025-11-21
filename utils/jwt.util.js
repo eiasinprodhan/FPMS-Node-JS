@@ -6,3 +6,6 @@ const JWT_SECRET = "your_super_secret_key_here";
 exports.generateToken = (payload) => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
 };
+
+// Decode JWT Token
+
