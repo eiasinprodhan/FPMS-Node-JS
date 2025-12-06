@@ -3,7 +3,6 @@ const { hashPassword } = require("../utils/password.util");
 const { query } = require("../utils/query.util");
 const { success, error } = require("../utils/response.util");
 
-
 // Sign Up Freelencer
 const signupFreelencer = [
   upload("photo", "freelancer"),
@@ -13,7 +12,7 @@ const signupFreelencer = [
       const { name, email, password, country } = req.body;
       const photo = req.file ? `freelancer/${req.file.filename}` : null;
       const hashed = await hashPassword(password);
-      const createdAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const createdAt = new Date().toISOString().slice(0, 19).replace("T", " ");
 
       const sql = `
         INSERT INTO users (name, email, password, user_type, profile_image, country, created_at, last_login, is_verified, status)
@@ -30,7 +29,7 @@ const signupFreelencer = [
         createdAt,
         null,
         false,
-        "active"
+        "active",
       ]);
 
       success(res, "Freelancer registered successfully!", {
@@ -42,11 +41,12 @@ const signupFreelencer = [
   },
 ];
 
-
 // Show All Freelencer
 const showAllFreelencer = async (req, res) => {
   try {
-    const results = await query("SELECT * FROM users WHERE user_type=?", ['freelancer']);
+    const results = await query("SELECT * FROM users WHERE user_type=?", [
+      "freelancer",
+    ]);
 
     res.status(200).json({
       success: true,
@@ -62,5 +62,69 @@ const showAllFreelencer = async (req, res) => {
   }
 };
 
+// Sign Up Freelencer
+const freelancerProfile = async (req, res) => {
+  try {
+    const {
+      freelancer_id,
+      title,
+      description,
+      hourly_rate,
+      experience_level,
+      total_earnings,
+      completed_jobs,
+      rating,
+      available,
+    } = req.body;
 
-module.exports = { signupFreelencer, showAllFreelencer };
+    const [results] = await query(
+      "INSERT INTO freelancer_profile(freelancer_id, title, description, hourly_rate, experience_level, total_earnings, completed_jobs, rating, available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        freelancer_id,
+        title,
+        description,
+        hourly_rate,
+        experience_level,
+        total_earnings,
+        completed_jobs,
+        rating,
+        available,
+      ]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Profile updated successfully.",
+      data: results.insertId,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to update profile.",
+      error: err.message,
+    });
+  }
+};
+
+// Show All Freelencer
+const showAllFreelencerProfile = async (req, res) => {
+  try {
+    const results = await query("SELECT * FROM users WHERE user_type=?", [
+      "freelancer",
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: `${results.length} freelencers found.`,
+      data: results,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to load freelencers.",
+      error: err.message,
+    });
+  }
+};
+
+module.exports = { signupFreelencer, showAllFreelencer, freelancerProfile};
