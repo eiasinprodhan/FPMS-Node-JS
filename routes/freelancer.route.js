@@ -3,7 +3,7 @@ const { signupFreelencer, showAllFreelencer, freelancerProfile } = require('../c
 const checkPermission = require("../utils/auth.util");
 const router = express.Router();
 
-router.get('/freelancer', checkPermission("admin"), showAllFreelencer);
+router.get('/freelancer', showAllFreelencer);
 router.post('/freelancer', signupFreelencer);
 router.post('/updateProfile', freelancerProfile);
 
